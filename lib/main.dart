@@ -5,6 +5,9 @@ import 'package:cardoverviewpoc/PatientDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'PatientDetailPage.dart';
+import 'MedicineDetailPage.dart';
+import 'BedDetailPage.dart';
+
 
 Future<Employee> fetchEmployee() async {
   final response = await http
@@ -73,27 +76,31 @@ class MyHome extends StatelessWidget {
                 side: BorderSide(
                   color: Colors.redAccent,
                   width: 1.0,
+
                 ),
               ),
               elevation: 5,
               margin: EdgeInsets.all(10),
 
-              child: InkWell(
+              child: Container(
 
-                splashColor: Colors.blue.withAlpha(30),
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (ctx) => SecondRoute()));
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const ListTile(
-                      leading: Icon(Icons.people),
-                      title: Text('Patiënten'),
-                      subtitle: Text('Zie hier uw overzicht van de patienten'),
-                    ),
-                  ],
+                child: InkWell(
+
+                  splashColor: Colors.blue.withAlpha(30),
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (ctx) => PatientDetailPage()));
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      const ListTile(
+                        leading: Icon(Icons.people),
+                        title: Text('Patiënten'),
+                        subtitle: Text('Zie hier uw overzicht van de patienten'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -110,14 +117,14 @@ class MyHome extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SecondRoute()),
+                    MaterialPageRoute(builder: (context) => BedDetailPage()),
                   );
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     const ListTile(
-                      leading: Icon(Icons.airline_seat_individual_suite),
+                      leading: Icon(Icons.local_hotel),
                       title: Text('Bedden'),
                       subtitle: Text('Zie hier uw overzicht van de bedden'),
                     ),
@@ -136,7 +143,10 @@ class MyHome extends StatelessWidget {
               child: InkWell(
                 splashColor: Colors.blue.withAlpha(30),
                 onTap: () {
-                  print('Card tapped.');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MedicineDetailPage()),
+                  );
                 },
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

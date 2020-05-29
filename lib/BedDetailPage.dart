@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class PatientDetailPage extends StatelessWidget {
+class BedDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("PatientDetailPage"),
+        title: Text("Beddetailpage"),
       ),
       body: Center(
         child: RaisedButton(
