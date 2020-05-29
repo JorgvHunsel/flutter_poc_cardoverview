@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cardoverviewpoc/PatientDetailPage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'PatientDetailPage.dart';
 
 Future<Employee> fetchEmployee() async {
-  final response =
-  await http.get('https://ceo-api.demo.performation.cloud/api/v1/employees/2');
+  final response = await http
+      .get('https://ceo-api.demo.performation.cloud/api/v1/employees/2');
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
@@ -20,11 +22,9 @@ Future<Employee> fetchEmployee() async {
 }
 
 class Employee {
-
   final String name_first;
   final String name_last;
   final int id;
-
 
   Employee({this.name_first, this.id, this.name_last});
 
@@ -37,23 +37,19 @@ class Employee {
   }
 }
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  MyApp({Key key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
+void main() {
+  runApp(MyApp());
 }
 
-class _MyAppState extends State<MyApp> {
-  Future<Employee> futureEmployee;
-
+class MyApp extends StatelessWidget {
   @override
-  void initState() {
-    super.initState();
-    futureEmployee = fetchEmployee();
+  Widget build(BuildContext context) {
+    return MaterialApp(home: MyHome());
   }
+}
+
+class MyHome extends StatelessWidget {
+  Future<Employee> futureEmployee = fetchEmployee();
 
   @override
   Widget build(BuildContext context) {
@@ -64,25 +60,111 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Fetch Data Example'),
+          title: Text('Directeur app'),
         ),
-        body: Center(
-          child: FutureBuilder<Employee>(
-            future: futureEmployee,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Text(snapshot.data.name_first);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
-              }
+        body: Container(
+            child: Column(
+          children: <Widget>[
+            Card(
+              semanticContainer: true,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide(
+                  color: Colors.redAccent,
+                  width: 1.0,
+                ),
+              ),
+              elevation: 5,
+              margin: EdgeInsets.all(10),
 
-              // By default, show a loading spinner.
-              return CircularProgressIndicator();
-            },
-          ),
-        ),
+              child: InkWell(
+
+                splashColor: Colors.blue.withAlpha(30),
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (ctx) => SecondRoute()));
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const ListTile(
+                      leading: Icon(Icons.people),
+                      title: Text('Patiënten'),
+                      subtitle: Text('Zie hier uw overzicht van de patienten'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              semanticContainer: true,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              elevation: 5,
+              margin: EdgeInsets.all(10),
+              child: InkWell(
+                splashColor: Colors.blue.withAlpha(30),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SecondRoute()),
+                  );
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const ListTile(
+                      leading: Icon(Icons.airline_seat_individual_suite),
+                      title: Text('Bedden'),
+                      subtitle: Text('Zie hier uw overzicht van de bedden'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              semanticContainer: true,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              elevation: 5,
+              margin: EdgeInsets.all(10),
+              child: InkWell(
+                splashColor: Colors.blue.withAlpha(30),
+                onTap: () {
+                  print('Card tapped.');
+                },
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const ListTile(
+                      leading: Icon(Icons.kitchen),
+                      title: Text('Medicijnen'),
+                      subtitle: Text('Zie hier uw overzicht van de medicijnen'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            FutureBuilder<Employee>(
+              future: futureEmployee,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data.name_first);
+                } else if (snapshot.hasError) {
+                  return Text("${snapshot.error}");
+                }
+                // By default, show a loading spinner.
+                return CircularProgressIndicator();
+              },
+            ),
+          ],
+        )),
       ),
     );
   }
 }
-
